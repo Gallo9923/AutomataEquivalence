@@ -4,8 +4,8 @@ public class BinaryTree {
 	
 	Node root;
 	
+	//Adds a value given its parent value to the binary tree if a recursive way
 	public Node addRecursive(Node current, char parentValue, char value) {
-		
 		
 		
 		if(current == null) {
@@ -41,8 +41,7 @@ public class BinaryTree {
 	
 	
 	public boolean containsNodeRecursive(Node current, char value) {
-		
-		
+	
 		if(current == null) {
 			return false;
 			

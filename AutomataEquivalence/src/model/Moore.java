@@ -1,5 +1,8 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Moore {
 
 	public static final char FIRST_STATE_NAME = 'A';
@@ -39,30 +42,79 @@ public class Moore {
 		// Step 3: create the directSum of the two machines M1 and M2
 		directSum();
 		
-		// Step 4: 
+		// Step 4: Realizes the partitioning algorithm to the directSum state table
+		partitioningAlgorithm();
+		
+		
+	}
+	
+	public void partitioningAlgorithm() {
+		
+		Set<Set<Character>> partition = firstPartition();
+		
+		System.out.println(partition);
+		
+	}
+	
+	public void nextPartition() {
 		
 		
 		
 	}
 	
+	public Set<Set<Character>> firstPartition() {
+		
+		//Partition
+		Set<Set<Character>> partition = new HashSet<Set<Character>>();
+		
+		Set<Character> temp;
+		
+		for(int output : outputAlphabet) {
+					
+			temp = new HashSet<Character>();
+			
+			for(int i=0; i<directSumStateTable.length; i++) {
+				
+				if(output == Character.getNumericValue((directSumStateTable[i][directSumStateTable[0].length-1]))) {
+					
+					temp.add(directSumStates[i]);
+				}
+			}
+			
+			partition.add(temp);
+		}
+				
+		return partition;
+	}
+	
 	public void directSum() {
 		
-		displayArray(states1);
-		displayArray(states2);
+		//displayArray(states1);
+		//displayArray(states2);
 		
 		int rows = (states1.length + states2.length);
 		int columns = outputAlphabet.length + 1;
 		
-		
+		/*
 		System.out.println("StateTable 1");
 		displayMatrix(stateTableM1);
 		
 		System.out.println("StateTable 2");
 		displayMatrix(stateTableM2);
+		*/
 		
 		directSumStateTable = new char[rows][columns];
+		directSumStates = new char[rows];
 		
 		for(int i=0; i < rows; i++) {
+			
+			if(i < states1.length) {
+				directSumStates[i] = states1[i];
+			}else {
+				directSumStates[i] = states2[i-states1.length];
+			}
+			
+			
 			for(int j=0; j < columns; j++){
 				
 			
@@ -76,7 +128,8 @@ public class Moore {
 			}
 		}
 		
-		System.out.println("Direct Sum");
+		
+		System.out.println("\nDirect Sum");
 		displayMatrix(directSumStateTable);
 		
 	}
